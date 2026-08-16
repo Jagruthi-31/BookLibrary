@@ -11,6 +11,9 @@ dist-ssr
 .env.local
 .env.*.local
 
+# One-time bulk import script — contains a service_role key, never commit
+scripts/import.config.json
+
 # Editor
 .vscode/*
 !.vscode/extensions.json
