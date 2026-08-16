@@ -41,20 +41,22 @@ function fail(message) {
 }
 
 // ---------------------------------------------------------------------------
-// 1. Load config + backup file
+// 1. Load config — from scripts/import.config.json when run locally, or from
+//    environment variables (GitHub Actions secrets) when run in CI. Env vars
+//    take priority if both are present.
 // ---------------------------------------------------------------------------
-if (!fs.existsSync(CONFIG_PATH)) {
-  fail(
-    `Missing scripts/import.config.json.\n` +
-      `Copy scripts/import.config.example.json to scripts/import.config.json and fill it in first.`
-  );
-}
+const fileConfig = fs.existsSync(CONFIG_PATH) ? JSON.parse(fs.readFileSync(CONFIG_PATH, "utf-8")) : {};
 
-const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf-8"));
-const { supabaseUrl, serviceRoleKey, userId } = config;
+const supabaseUrl = process.env.SUPABASE_URL || fileConfig.supabaseUrl;
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || fileConfig.serviceRoleKey;
+const userId = process.env.TARGET_USER_ID || fileConfig.userId;
 
 if (!supabaseUrl || !serviceRoleKey || !userId) {
-  fail("scripts/import.config.json is missing supabaseUrl, serviceRoleKey, or userId.");
+  fail(
+    "Missing supabaseUrl, serviceRoleKey, or userId.\n" +
+      "Locally: fill in scripts/import.config.json.\n" +
+      "In GitHub Actions: set the SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, and TARGET_USER_ID repository secrets."
+  );
 }
 
 const backupPathArg = process.argv[2];
