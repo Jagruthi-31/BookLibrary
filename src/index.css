@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light — warm paper, indigo cloth-binding accent, gold foil rating */
+  --paper: 40 27% 97%;
+  --paper-soft: 39 30% 94%;
+  --card: 0 0% 100%;
+  --ink: 30 8% 11%;
+  --ink-muted: 30 6% 42%;
+  --ink-faint: 30 6% 62%;
+  --border: 35 20% 88%;
+  --accent: 226 32% 31%;
+  --accent-hover: 226 36% 25%;
+  --accent-soft: 226 40% 94%;
+  --gold: 42 46% 45%;
+  --danger: 6 65% 46%;
+  --danger-soft: 6 70% 95%;
+  --success: 152 40% 34%;
+}
+
+.dark {
+  /* Dark — reading-lamp night, soft indigo accent */
+  --paper: 220 14% 8%;
+  --paper-soft: 220 13% 11%;
+  --card: 220 13% 12%;
+  --ink: 40 20% 94%;
+  --ink-muted: 30 8% 66%;
+  --ink-faint: 30 6% 46%;
+  --border: 220 12% 20%;
+  --accent: 226 62% 74%;
+  --accent-hover: 226 68% 82%;
+  --accent-soft: 226 30% 20%;
+  --gold: 42 60% 62%;
+  --danger: 6 70% 65%;
+  --danger-soft: 6 40% 18%;
+  --success: 152 40% 55%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: hsl(var(--paper));
+  color: hsl(var(--ink));
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background-color: hsl(var(--accent-soft));
+  color: hsl(var(--accent));
+}
+
+/* Slim, unobtrusive scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border));
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--paper-soft)) 0%,
+    hsl(var(--border) / 0.6) 50%,
+    hsl(var(--paper-soft)) 100%
+  );
+  background-size: 800px 100%;
+}
+
+/* Book-spine accent strip, used on cards and the generated fallback cover */
+.spine-strip {
+  background: linear-gradient(180deg, var(--spine-color, hsl(var(--accent))) 0%, color-mix(in srgb, var(--spine-color, hsl(var(--accent))) 80%, black) 100%);
+}
